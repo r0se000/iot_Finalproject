@@ -1,0 +1,155 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 최신 IE브라우저로 렌더링 -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    
+    <title>Mold Sensing</title>
+    <!-- IE 10이상이거나 IE제외한 브라우저만 css 적용가능 -->
+    <!--[if (gt IE 10)|!(IE)]><!--><link rel="stylesheet" type="text/css" href="{% static 'base.css' %}"><!--<![endif]-->
+    <link href="//fonts.googleapis.com/css?family=Sunflower:300&display=swap" rel="stylesheet">
+    <script src="//kit.fontawesome.com/9279b2b68a.js"></script>
+    <script src="//code.jquery.com/jquery-1.7.min.js"></script>
+    <script src="{% static './JS/tog-btn.js' %}"></script>
+    <style>
+    /* 만약 display: block이면 float로 배치하고 clear:both로 해줘도 됨. */
+.wrapper {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+.wrapper{
+    margin: 80px 0 50px 0;
+	position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(86, 138, 250, 0.356);
+    max-width: 300px;
+    width: 100%;
+    padding: 10px;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+.wrapper .inputID {
+    width: 85%;
+    padding: 10px 13px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.searchbtn {
+    background: #ffec00;
+    width: 15%;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    color: #000;
+}
+.searchbtn .fas{
+	position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+} 
+    </style>
+
+
+    <!-- 날씨 api 가져오기 -->
+    <script>
+        $.getJSON('//api.openweathermap.org/data/2.5/weather?id=1835848&APPID=84758091ddd46f78a4fc991017ba0bc3&units=metric', function(data){
+            var $curTemp = data.main.temp;//현재온도
+            var $curHum = data.main.humidity;//현재습도
+            var $now = new Date($.now());
+            var $curDate = $now.getFullYear() + '/' +  ($now.getMonth() + 1) + '/'
+            + $now.getDate() +'/' + $now.getHours() + ':' + $now.getMinutes();
+            
+            $('.curtemp').append($curTemp);
+            $('.curHum').append($curHum);
+            $('.curDate').prepend($curDate);
+        });
+    </script>
+    <!-- 크로스 브라우징을 위해 조건부 주석을 사용-->
+    <!-- IE 9이하 버전에 html 5 태그(footer,header,section 지원x)-->
+
+    <!--IE 버전 별로 css 적용을 다르게 해서라도 낮은 버전에서도 사용할 수 있게 해주고 싶었지만,
+        브라우저 별 html이나 css 대응 여부를 체크해보니
+        IE9이하부터 <iframe>로 api나 thinkspeak에서 가져온 그래프 등등 여러 필수 요소가 보여지질 않아서
+        우리 서비스의 주목적에 부합하지 않다 판단하여 사용할 수 없게 강제로 막아둠. -->
+
+    <!--[if lt IE 10]><script type="text/javascript">
+        alert("인터넷 익스플로러 10미만 버전을 사용하고 계십니다. 죄송하지만 최소 버전10 이상이 되어야 이 서비스를 이용하실 수 있습니다.");
+        history.back();
+    </script><[endif]-->
+
+</head>
+
+<body>
+    <div id=boundary>
+        <!-- 헤더 영역 -->
+        <header class="header cfixed">
+            <h1 class="logo"><a href="">MOLD SENSING</a></h1>
+            <nav>
+                <ul class="gnb">
+                    <li><a href="#about">about</a></li>
+                    <!-- first block에는 라즈베리를 검색한 후, 추가로 보여질 메뉴 내용이 담겨짐 -->
+                    {%block first%}
+                    {%endblock%}
+                </ul>
+            </nav>
+            <span class="menu-toggle-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        </header>
+        <!-- slider 영역 -->
+        <article class="slider">
+            <img src="{% static 'comportable_e.jpg'%}" alt="">
+            <!-- 사진은 같이 첨부해서 보낼 것 -->
+        </article>
+
+<!-- display(프로젝트 소개) 영역 -->
+
+        <section class="content">
+            <!-- <div class="grid-wrapper"> -->
+            <section class="display-section"  id="about">
+                <div class='h2R' style='padding-bottom: 10px;' ><h2 style="font-style: italic; margin-bottom:5%;">"Even small Molds can cause big problems."</h2></div>
+                <div class="container grid-wrapper">
+                    <h2 class="title-tag top-left grid1">Mold Sensing</h2>
+                    <p class="info top-right grid2">Mold Sensing is a alarm service for preventing mold, pest, etc...<br>Cause everyone hurts, everyone cries Everyone sees the colour in each other's eyes,<br>
+                        Everyone loves, everybody gets their hearts ripped out Got to keep dancing when the lights go out<br>
+                        Gonna keep dancing when the lights go out Hold tight for everyday life<br> Hold tight for everyday life
+                    </p>
+                </div>
+            </section>
+
+<!-- second block : 라즈베리 파이를 조회 후, 파이에 대한 온습도 관련 정보가 담겨 보여질 것 -->
+            {% block second%}
+            {% endblock %}
+
+        </section>
+        <!-- 푸터 영역 -->
+
+        <footer class="footer">
+            <p>Mold Sensing</p>
+                    <!-- 카카오 채널로 문의 사항 접수-->
+            <div>
+                <a href='//pf.kakao.com/_rJSQT' class="chat">
+                    <i class="fas fa-headset">
+                    </i>
+                </a>
+            </div>
+            <h7 class="copyright">copyright(c) Mold Sensing 2019 all right reserved</h7>
+        </footer>
+    </div>
+</body>
+</html>

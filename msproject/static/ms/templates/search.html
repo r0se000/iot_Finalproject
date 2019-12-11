@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{%block second%}
+<form method="GET" action="{%url 'home'%}">
+    {% csrf_token %}
+    <div class="wrapper">
+        <input name="n" type="text" class="input" placeholder="Input your device ID">
+        <div class="submit" class="searchbtn" value="search"></div>
+    </div>
+</form>
+{%endblock%}

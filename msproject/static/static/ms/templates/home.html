@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{%block first%}
+<li><a href="#condition">condition</a></li>
+<li><a href="#graph">graph</a></li>
+{%endblock%}
+
+
+
+{%block second%}
+<!-- condition 구역 -->
+            <hr class="separator separator--line">
+            <section class="promotion-section" id="condition">
+                    <div class="container">
+                        <ul class="promo-list">
+                            <li>
+                                <!-- 온도 버튼 -->
+                                    <h3 class="title-tag">Temperature</h3>
+                                    <!-- <p>온도</p> -->
+                                    <div class="btn-row">
+                                    <div class="ct-btn">
+                                        {%for datas in data.all%}
+                                            <button class="tem-btn heart-bit-neon">{{datas.temp}}°C</button>
+                                        {%endfor%}
+                                        </div></div>
+                                    
+                            </li>
+                            <li>
+                                <!-- 습도 버튼 -->
+                                <h3 class="title-tag" style="margin-bottom:100px;">Humidity</h3>
+                                <!-- <p>습도</p> -->
+                                <div class="liquid">
+                                    {%for datas in data.all%}
+                                        <h1>{{datas.humid}}%</h1><!-- 70(숫자)부분을 인자?로 받아 라즈베리파이에서 가져온 숫자가 보이게! -->
+                                    {%endfor%}
+                                </div>
+                            </li>
+                            <li>
+                                <!-- seoul 실시간 날씨(api 사용) -->
+                                <h3 class="title-tag">Today's Weather</h3>
+                                <h4 class="cur curDate"> <br>(Seoul)</h4>
+                                <div class="cur curtemp">현재 온도(°C): </div>
+                                <div class="cur curHum">현재 습도(%): </div>
+                                    <!-- <div class="cur curLtemp">최저 온도: </div> -->
+                                    <!-- <div class="cur curHtemp">최고 온도: </div> -->
+                            </li>
+                        </ul></div>
+            </section>
+            <hr class="m-divider">
+
+
+            <!-- 그래프 영역 -->
+
+            <section class="graph-section" id="graph">
+                    <div class="container">
+                        <ul class="graph-list">
+                            <li>
+                                <h3 class="title-tag">Temperature</h3>
+                                <p style="text-align: center;">
+                                    <iframe style="border: none;" src="//thingspeak.com/channels/923706/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                                </p>
+                                <!-- 그래프 원본 사이즈: width="450" height="260" -->
+                            </li>
+                            <li>
+                                <!-- 습도 그래프 -->
+                                <h3 class="title-tag">Humidity</h3>
+                                <p style="text-align: center;">
+                                    <iframe style="border: none;" src="//thingspeak.com/channels/923706/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+            </section>
+{%endblock%}
